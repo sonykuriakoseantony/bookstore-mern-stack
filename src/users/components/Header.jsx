@@ -42,7 +42,7 @@ function Header() {
             <BiUser /> Login
           </Link>
         </div>
-        <ul className={toggle?'flex flex-col uppercase gap-3 py-2':'hidden md:flex justify-center items-center uppercase'}>
+        <ul className={toggle?'flex flex-col uppercase gap-3 py-2':'hidden md:flex justify-center items-center uppercase py-2'}>
           <li className='md:mx-4'>
             <Link to={'/'}>Home</Link>
           </li>

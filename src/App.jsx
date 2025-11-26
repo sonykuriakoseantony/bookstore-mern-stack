@@ -29,7 +29,7 @@ function App() {
         <Route path='/login' element={<Auth />} />
         <Route path='/register' element={<Auth registerURL={true} />} />
         <Route path='/books' element={<BooksArchive />} />
-        <Route path='/conatct' element={<Contact />} />
+        <Route path='/contact' element={<Contact />} />
 
         <Route path='/user/profile' element={<Profile />} />
         <Route path='/books/:id/view' element={<ViewBook />} />
