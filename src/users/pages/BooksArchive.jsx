@@ -15,7 +15,7 @@ function BooksArchive() {
           <h1 className='text-3xl font-bold my-5'>All Books</h1>
           <div className='flex my-5 gap-0'>
             <input type="text" placeholder='Search by Book title' className="px-4 py-2 border border-gray-200 placeholder-gray-600 text-black w-100" />
-            <button className='bg-blue-900 text-white px-4 cursor-pointer'>Search</button>
+            <button className='bg-blue-900 text-white px-4 cursor-pointer transition duration-300 ease-in-out hover:bg-blue-900/85'>Search</button>
           </div>
         </div>
 
@@ -43,45 +43,21 @@ function BooksArchive() {
 
           {/* Bokks cards */}
           <div className='col-span-3'>
-            <div className='md:grid grid-cols-4 w-full mt-5 md:mt-0'>
-              <div className='shadow rounded-lg p-3 mx-4 my-3 md:mt-0'>
-                <img src="https://mir-s3-cdn-cf.behance.net/project_modules/fs/90822f55620761.598bf1d73ae0c.jpg" alt="Alchemist" style={{ width: '100%', height: '300px' }} />
+            <div className='md:grid grid-cols-3 w-full mt-5 md:mt-0'>
+              <div className='shadow rounded-lg p-3 mx-4 my-3 md:mt-0 '>
+                <img src="https://mir-s3-cdn-cf.behance.net/project_modules/fs/90822f55620761.598bf1d73ae0c.jpg" alt="Alchemist" style={{ width: '100%' }} />
                 <div className='flex flex-col justify-center items-center m-4'>
-                  <h3 className='text-blue-700 font-bold text-xl'>Author Name</h3>
+                  <h3 className='text-blue-800 font-bold text-xl'>Author Name</h3>
                   <p>Title</p>
-                  <Link to={'/books/1/view'} className='bg-blue-900 text-white py-2 px-4 cursor-pointer mt-2'>View Book</Link>
+                  <Link to={'/books/1/view'} className='mt-2 transition duration-300 ease-in-out cursor-pointer py-2 px-3 rounded bg-blue-900 text-white border hover:bg-white hover:text-blue-800 hover:border-blue-800'>View Book</Link>
                 </div>
               </div>
-              <div className='shadow rounded-lg p-3 mx-4 my-3 md:mt-0'>
-                <img src="https://mir-s3-cdn-cf.behance.net/project_modules/fs/90822f55620761.598bf1d73ae0c.jpg" alt="Alchemist" style={{ width: '100%', height: '300px' }} />
+              <div className='shadow rounded-lg p-3 mx-4 my-3 md:mt-0 '>
+                <img src="https://mir-s3-cdn-cf.behance.net/project_modules/fs/90822f55620761.598bf1d73ae0c.jpg" alt="Alchemist" style={{ width: '100%' }} />
                 <div className='flex flex-col justify-center items-center m-4'>
-                  <h3 className='text-blue-700 font-bold text-xl'>Author Name</h3>
+                  <h3 className='text-blue-800 font-bold text-xl'>Author Name</h3>
                   <p>Title</p>
-                  <Link to={'/books/1/view'} className='bg-blue-900 text-white py-2 px-4 cursor-pointer mt-2'>View Book</Link>
-                </div>
-              </div>
-              <div className='shadow rounded-lg p-3 mx-4 my-3 md:mt-0'>
-                <img src="https://mir-s3-cdn-cf.behance.net/project_modules/fs/90822f55620761.598bf1d73ae0c.jpg" alt="Alchemist" style={{ width: '100%', height: '300px' }} />
-                <div className='flex flex-col justify-center items-center m-4'>
-                  <h3 className='text-blue-700 font-bold text-xl'>Author Name</h3>
-                  <p>Title</p>
-                  <Link to={'/books/1/view'} className='bg-blue-900 text-white py-2 px-4 cursor-pointer mt-2'>View Book</Link>
-                </div>
-              </div>
-              <div className='shadow rounded-lg p-3 mx-4 my-3 md:mt-0'>
-                <img src="https://mir-s3-cdn-cf.behance.net/project_modules/fs/90822f55620761.598bf1d73ae0c.jpg" alt="Alchemist" style={{ width: '100%', height: '300px' }} />
-                <div className='flex flex-col justify-center items-center m-4'>
-                  <h3 className='text-blue-700 font-bold text-xl'>Author Name</h3>
-                  <p>Title</p>
-                  <Link to={'/books/1/view'} className='bg-blue-900 text-white py-2 px-4 cursor-pointer mt-2'>View Book</Link>
-                </div>
-              </div>
-              <div className='shadow rounded-lg p-3 mx-4 my-3 md:mt-0'>
-                <img src="https://mir-s3-cdn-cf.behance.net/project_modules/fs/90822f55620761.598bf1d73ae0c.jpg" alt="Alchemist" style={{ width: '100%', height: '300px' }} />
-                <div className='flex flex-col justify-center items-center m-4'>
-                  <h3 className='text-blue-700 font-bold text-xl'>Author Name</h3>
-                  <p>Title</p>
-                  <Link to={'/books/1/view'} className='bg-blue-900 text-white py-2 px-4 cursor-pointer mt-2'>View Book</Link>
+                  <Link to={'/books/1/view'} className='mt-2 transition duration-300 ease-in-out cursor-pointer py-2 px-3 rounded bg-blue-900 text-white border hover:bg-white hover:text-blue-800 hover:border-blue-800'>View Book</Link>
                 </div>
               </div>
             </div>

@@ -22,7 +22,7 @@ function ViewBook() {
             <div className='col-span-3'>
               <div className='flex justify-between mt-5 md:mt-0'>
                 <h1 className='font-bold text-xl'>Book Title</h1>
-                <button className='text-gray-400 cursor-pointer' onClick={()=>setModalStatus(!modalStatus)}><FaEye size={22} /></button>
+                <button className='text-gray-400 transition duration-300 ease-in-out cursor-pointer hover:text-gray-600' onClick={()=>setModalStatus(!modalStatus)}><FaEye size={22} /></button>
               </div>
               <h3 className='my-5 text-xl text-blue-800'>~Author</h3>
               <div className='md:grid grid-cols-3 gap-5 my-10'>
@@ -43,8 +43,8 @@ function ViewBook() {
               <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Iste harum quo, quia exercitationem dignissimos cumque nulla vel quisquam quibusdam sit molestias ullam quis possimus repellat aspernatur ipsam nisi necessitatibus voluptatibus.
                 Rem provident esse asperiores molestias labore doloremque eum iste quisquam alias dolorum, voluptas, voluptate placeat illo! Quos perspiciatis facilis dolor architecto at voluptas veritatis iusto odio, et laudantium minima delectus.</p>
               <div className='flex justify-end gap-x-4 mt-6'>
-                <Link to={'/books'} className='bg-blue-900 py-2 px-4 text-white flex items-center gap-2 rounded'><FaBackward />Back</Link>
-                <button className='bg-green-700 py-2 px-4 text-white flex items-center gap-2 cursor-pointer rounded'><FaBackward />Buy $17</button>
+                <Link to={'/books'} className='transition duration-300 ease-in-out cursor-pointer py-2 px-3 rounded bg-blue-900 text-white border hover:bg-white hover:text-blue-800 hover:border-blue-800 flex items-center gap-x-2'><FaBackward />Back</Link>
+                <button className='transition duration-300 ease-in-out cursor-pointer py-2 px-3 rounded bg-green-700 text-white border hover:bg-white hover:text-green-700 hover:border-green-700 flex items-center gap-x-2'><FaBackward />Buy $17</button>
               </div>
             </div>
           </div>
