@@ -28,7 +28,7 @@ function Home() {
         <div className='md:grid grid-cols-4 w-full my-10'>
           {/* Duplicate book cards */}
           <div className='shadow rounded-lg p-3 mx-4 my-3 md:mt-0'>
-            <img src="https://mir-s3-cdn-cf.behance.net/project_modules/fs/90822f55620761.598bf1d73ae0c.jpg" alt="Alchemist" style={{ width: '100%', height: '300px' }} />
+            <img src="https://mir-s3-cdn-cf.behance.net/project_modules/fs/90822f55620761.598bf1d73ae0c.jpg" alt="Alchemist" style={{ width: '100%'}} />
             <div className='flex flex-col justify-center items-center m-4'>
               <h3 className='text-blue-700 font-bold text-xl'>Author Name</h3>
               <p>Title</p>
@@ -36,7 +36,7 @@ function Home() {
             </div>
           </div>
           <div className='shadow rounded-lg p-3 mx-4 my-3 md:mt-0'>
-            <img src="https://mir-s3-cdn-cf.behance.net/project_modules/fs/90822f55620761.598bf1d73ae0c.jpg" alt="Alchemist" style={{ width: '100%', height: '300px' }} />
+            <img src="https://mir-s3-cdn-cf.behance.net/project_modules/fs/90822f55620761.598bf1d73ae0c.jpg" alt="Alchemist" style={{ width: '100%'}} />
             <div className='flex flex-col justify-center items-center m-4'>
               <h3 className='text-blue-700 font-bold text-xl'>Author Name</h3>
               <p>Title</p>
@@ -44,7 +44,7 @@ function Home() {
             </div>
           </div>
           <div className='shadow rounded-lg p-3 mx-4 my-3 md:my-2'>
-            <img src="https://mir-s3-cdn-cf.behance.net/project_modules/fs/90822f55620761.598bf1d73ae0c.jpg" alt="Alchemist" style={{ width: '100%', height: '300px' }} />
+            <img src="https://mir-s3-cdn-cf.behance.net/project_modules/fs/90822f55620761.598bf1d73ae0c.jpg" alt="Alchemist" style={{ width: '100%'}} />
             <div className='flex flex-col justify-center items-center m-4'>
               <h3 className='text-blue-700 font-bold text-xl'>Author Name</h3>
               <p>Title</p>
@@ -52,7 +52,7 @@ function Home() {
             </div>
           </div>
           <div className='shadow rounded-lg p-3 mx-4 my-3 md:mt-0'>
-            <img src="https://mir-s3-cdn-cf.behance.net/project_modules/fs/90822f55620761.598bf1d73ae0c.jpg" alt="Alchemist" style={{ width: '100%', height: '300px' }} />
+            <img src="https://mir-s3-cdn-cf.behance.net/project_modules/fs/90822f55620761.598bf1d73ae0c.jpg" alt="Alchemist" style={{ width: '100%'}} />
             <div className='flex flex-col justify-center items-center m-4'>
               <h3 className='text-blue-700 font-bold text-xl'>Author Name</h3>
               <p>Title</p>
@@ -60,7 +60,7 @@ function Home() {
             </div>
           </div>
           <div className='shadow rounded-lg p-3 mx-4 my-3 md:mt-0'>
-            <img src="https://mir-s3-cdn-cf.behance.net/project_modules/fs/90822f55620761.598bf1d73ae0c.jpg" alt="Alchemist" style={{ width: '100%', height: '300px' }} />
+            <img src="https://mir-s3-cdn-cf.behance.net/project_modules/fs/90822f55620761.598bf1d73ae0c.jpg" alt="Alchemist" style={{ width: '100%'}} />
             <div className='flex flex-col justify-center items-center m-4'>
               <h3 className='text-blue-700 font-bold text-xl'>Author Name</h3>
               <p>Title</p>
@@ -68,7 +68,7 @@ function Home() {
             </div>
           </div>
           <div className='shadow rounded-lg p-3 mx-4 my-3 md:mt-0'>
-            <img src="https://mir-s3-cdn-cf.behance.net/project_modules/fs/90822f55620761.598bf1d73ae0c.jpg" alt="Alchemist" style={{ width: '100%', height: '300px' }} />
+            <img src="https://mir-s3-cdn-cf.behance.net/project_modules/fs/90822f55620761.598bf1d73ae0c.jpg" alt="Alchemist" style={{ width: '100%'}} />
             <div className='flex flex-col justify-center items-center m-4'>
               <h3 className='text-blue-700 font-bold text-xl'>Author Name</h3>
               <p>Title</p>
@@ -76,7 +76,7 @@ function Home() {
             </div>
           </div>
           <div className='shadow rounded-lg p-3 mx-4 my-3 md:mt-0'>
-            <img src="https://mir-s3-cdn-cf.behance.net/project_modules/fs/90822f55620761.598bf1d73ae0c.jpg" alt="Alchemist" style={{ width: '100%', height: '300px' }} />
+            <img src="https://mir-s3-cdn-cf.behance.net/project_modules/fs/90822f55620761.598bf1d73ae0c.jpg" alt="Alchemist" style={{ width: '100%'}} />
             <div className='flex flex-col justify-center items-center m-4'>
               <h3 className='text-blue-700 font-bold text-xl'>Author Name</h3>
               <p>Title</p>
@@ -84,7 +84,7 @@ function Home() {
             </div>
           </div>
           <div className='shadow rounded-lg p-3 mx-4 my-3 md:mt-0'>
-            <img src="https://mir-s3-cdn-cf.behance.net/project_modules/fs/90822f55620761.598bf1d73ae0c.jpg" alt="Alchemist" style={{ width: '100%', height: '300px' }} />
+            <img src="https://mir-s3-cdn-cf.behance.net/project_modules/fs/90822f55620761.598bf1d73ae0c.jpg" alt="Alchemist" style={{ width: '100%'}} />
             <div className='flex flex-col justify-center items-center m-4'>
               <h3 className='text-blue-700 font-bold text-xl'>Author Name</h3>
               <p>Title</p>

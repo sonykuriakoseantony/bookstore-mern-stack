@@ -54,8 +54,6 @@ function Profile() {
             <div> <Purchase /> </div>
           }
           
-          
-          
         </div>
       <Footer />
     </>
