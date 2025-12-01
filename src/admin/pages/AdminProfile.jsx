@@ -31,8 +31,8 @@ function AdminProfile() {
               </ul>
               <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Iure numquam, praesentium consequatur accusamus nemo mollitia. Magnam ab soluta sed, aspernatur quam rerum veritatis nobis hic ullam natus, a, reiciendis voluptatibus!</p>
             </div>
-            <div className='px-10'>
-              <div className='flex justify-center items-center  flex-col my-5 bg-blue-100 p-10 rounded-lg'>
+            <div className='md:px-10'>
+              <div className='flex justify-center items-center  flex-col my-5 bg-blue-100 p-5 md:p-10 rounded-lg'>
                 <label htmlFor="userProfile">
                   <input type="file" id='userProfile' hidden />
                   <img width={'150px'} height={'150px'} src="/author.jpg" alt="profile" className='z-52 rounded-full border-5 border-gray-500' />

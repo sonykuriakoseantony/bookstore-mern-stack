@@ -4,6 +4,7 @@ import AdminHeader from '../components/AdminHeader'
 import { FaBook, FaUsers } from 'react-icons/fa'
 import { FaPeopleGroup } from 'react-icons/fa6'
 import { ResponsiveContainer, BarChart, Legend, XAxis, YAxis, CartesianGrid, Tooltip, Bar, PieChart, Pie } from 'recharts'
+import Footer from '../../components/Footer'
 
 function AdminHome() {
   //Sample BarChart data
@@ -71,7 +72,7 @@ function AdminHome() {
         <div className='col-span-1'>
           <AdminSideBar />
         </div>
-        <div className='col-span-4 p-10'>
+        <div className='col-span-4 p-5 md:p-10'>
           {/* Cards */}
           <div className="md:grid grid-cols-3">
             <div className="md:px-5 my-5 md:my-0">
@@ -102,7 +103,7 @@ function AdminHome() {
               </div>
             </div>
           </div>
-          <div className="md:grid grid-cols-2 p-5 mt-10 text-lg">
+          <div className="md:grid grid-cols-2 md:p-5 mt-10 text-lg">
             <div>
               Book purchasing ratio
             </div>
@@ -110,11 +111,11 @@ function AdminHome() {
               Growth Ratio - by year
             </div>
           </div>
-          <div className="md:grid grid-cols-2 p-5">
+          <div className="md:grid grid-cols-2 md:p-5">
             <div className='my-5 md:my-10 w-full'>
               <h1>Bar chart</h1>
               {/* Bar chart */}
-              <ResponsiveContainer width={'500'} height={'500'}>
+              <ResponsiveContainer width={'100%'} height={'400'}>
 
                 <BarChart data={data} style={{ maxWidth: '700px', maxHight: '70vh' }}>
                   <CartesianGrid strokeDasharray="3 3" />
@@ -128,10 +129,10 @@ function AdminHome() {
 
               </ResponsiveContainer>
             </div>
-            <div>
+            <div className='md:ms-5 my-5 md:my-10 w-full p-3'>
               Pie chart
               {/* Pie Chart */}
-              <ResponsiveContainer width={'500'} height={'500'}>
+              <ResponsiveContainer width={'100%'} height={'300'}>
 
                 <PieChart>
                   <Pie
@@ -160,6 +161,7 @@ function AdminHome() {
           </div>
         </div>
       </div>
+      <Footer />
     </>
   )
 }

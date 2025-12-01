@@ -4,7 +4,7 @@ function SellBook() {
   return (
     <>
       <div>
-        <div className='p-10 my-20 mx-5 bg-gray-200'>
+        <div className='p-5 pt-10 md:p-10 my-20 mx-5 bg-gray-200'>
           <div className="text-center text-3xl font-medium">Book Details</div>
           <div className='md:grid grid-cols-2 mt-10 w-full'>
             <div className='px-3'>
