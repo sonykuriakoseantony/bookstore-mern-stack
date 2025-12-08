@@ -2,9 +2,15 @@ import React, { useState } from 'react'
 import { BiUser } from 'react-icons/bi'
 import { CgEyeAlt } from 'react-icons/cg'
 import { FaEye, FaEyeSlash } from 'react-icons/fa'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
+import { ToastContainer, toast } from 'react-toastify'
+import { loginAPI, registerAPI } from '../services/allAPI'
+
 
 function Auth({ registerURL }) {
+
+  const navigate = useNavigate();
+
   const [invalidUsername, setInvalidUsername] = useState(false)
   const [invalidEmail, setInvalidEmail] = useState(false)
   const [invalidPassword, setInvalidPassword] = useState(false)
@@ -18,43 +24,155 @@ function Auth({ registerURL }) {
   const validateInputs = (inputTag) => {
 
     const { name, value } = inputTag
-    console.log(name, value);
 
-    // console.log(!!value.match(/^[a-zA-Z ]{3,16}$/));
-    // console.log(!!value.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/));
-    // console.log(!!value.match(/^.{6,16}$/));
-    
     if (name == "username") {
       const usernameRegex = /^[a-zA-Z ]{3,16}$/;
-      setUserDetails({...userDetails,username:value})
-      if(!usernameRegex.test(value)){
+      setUserDetails({ ...userDetails, username: value })
+      if (!usernameRegex.test(value)) {
         setInvalidUsername(true);
       }
-      else{
+      else {
         setInvalidUsername(false);
       }
     }
 
-    if (name == "email"){
+    if (name == "email") {
       const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-      setInvalidEmail({...userDetails,email:value})
-      if(!emailRegex.test(value)){
+      setUserDetails({ ...userDetails, email: value })
+      if (!emailRegex.test(value)) {
         setInvalidEmail(true);
       }
-      else{
+      else {
         setInvalidEmail(false);
       }
     }
 
-    if (name == "password"){
-      const pswdRegex = /^.{6,16}$/
-      setInvalidEmail({...userDetails,password:value})
-      if(pswdRegex.test(value)){
+    if (name == "password") {
+      const pswdRegex = /^.{6,6}$/
+      setUserDetails({ ...userDetails, password: value })
+      if (pswdRegex.test(value)) {
         setInvalidPassword(true);
       }
-      else{
+      else {
         setInvalidPassword(false);
       }
+    }
+  }
+
+  const handleRegister = async (e) => {
+    e.preventDefault();
+
+    const { username, email, password } = userDetails;
+
+    if (username && email && password) {
+      console.log(username, email, password);
+      
+      // console.log("Ready for API call !");
+      try {
+
+        const result = await registerAPI(userDetails);
+        console.log(result);
+
+        //results in 200, 409, 500
+
+        if (result.status == 200) {
+          toast.success("Registered successfully !");
+          setUserDetails({
+            username: '',
+            email: '',
+            password: ''
+          })
+          navigate('/login');
+        }
+        else if (result.status == 409) {
+          toast.warning(res.response.data.message);
+          setUserDetails({
+            username: '',
+            email: '',
+            password: ''
+          })
+          navigate('/login');
+        }
+        else{
+          toast.error("Something went wrong. Please try again later !");
+          setUserDetails({
+            username: '',
+            email: '',
+            password: ''
+          })
+        }
+      }
+      catch (err) {
+        console.log(err);
+      }
+    }
+    else {
+      toast.warning("Please fill all the details !")
+    }
+
+  }
+
+  const handleLogin = async (e) => {
+    e.preventDefault();
+
+    const { email, password } = userDetails;
+
+    if (email && password) {
+      console.log(email, password);
+      
+      // console.log("Ready for API call !");
+      try {
+
+        const result = await loginAPI(userDetails);
+        console.log(result);
+
+        //results in 200, 404, 500
+
+        if (result.status == 200) {
+          toast.success("Logged in successfully !");
+          sessionStorage.setItem("token", result.data.token);
+          sessionStorage.setItem("user", JSON.stringify(result.data.user));
+
+          setUserDetails({
+            username: '',
+            email: '',
+            password: ''
+          })
+
+          setTimeout(( ) => {
+              if(result.data.user.role == 'admin'){
+                  navigate('/admin/home');
+              }
+              else{
+                navigate('/');
+              }
+          }, 2500)
+        }
+        else if (result.status == 401 || result.status == 404) {
+          toast.warning(res.response.data.message);
+          setUserDetails({
+            username: '',
+            email: '',
+            password: ''
+          })
+          navigate('/');
+        }
+        else{
+          toast.error("Something went wrong. Please try again later !");
+          setUserDetails({
+            username: '',
+            email: '',
+            password: ''
+          })
+          console.log(result);
+        }
+      }
+      catch (err) {
+        console.log(err);
+      }
+    }
+    else {
+      toast.warning("Please fill all the details !")
     }
   }
 
@@ -75,22 +193,22 @@ function Auth({ registerURL }) {
               {
                 registerURL &&
                 <>
-                  <input onChange={(e) => validateInputs(e.target)} placeholder="Username*" name='username' className="bg-white p-2 w-full rounded placeholder-gray-500 mt-5 text-black" type="text" />
+                  <input value={userDetails.username} onChange={(e) => validateInputs(e.target)} placeholder="Username*" name='username' className="bg-white p-2 w-full rounded placeholder-gray-500 mt-5 text-black" type="text" />
                   {invalidUsername && <div className='text-yellow-500 mt-1 text-sm'>*Invalid User name</div>}
                 </>
               }
               {/* Email */}
-              <input onChange={(e) => validateInputs(e.target)} placeholder="Email address*" name='email' className="bg-white p-2 w-full rounded placeholder-gray-500 mt-5 text-black" type="text" />
+              <input value={userDetails.email} onChange={(e) => validateInputs(e.target)} placeholder="Email address*" name='email' className="bg-white p-2 w-full rounded placeholder-gray-500 mt-5 text-black" type="text" />
               {invalidEmail && <div className='text-yellow-500 mt-1 text-sm'>*Invalid Email</div>}
 
               {/* Password */}
               <div className="flex items-center">
-                <input onChange={(e) => validateInputs(e.target)} placeholder="Password*" name='password' className="bg-white p-2 w-full rounded placeholder-gray-500 mt-5 text-black" type={viewPassword ? 'text' : 'password'} />
+                <input value={userDetails.password} onChange={(e) => validateInputs(e.target)} placeholder="Password*" name='password' className="bg-white p-2 w-full rounded placeholder-gray-500 mt-5 text-black" type={viewPassword ? 'text' : 'password'} />
                 {
                   viewPassword ?
-                    <FaEyeSlash onClick={() => setViewPassword(!viewPassword)} className='text-gray-500' style={{ marginLeft: '-30px', marginTop : '20px' }} size={20} />
+                    <FaEyeSlash onClick={() => setViewPassword(!viewPassword)} className='text-gray-500' style={{ marginLeft: '-30px', marginTop: '20px' }} size={20} />
                     :
-                    <FaEye onClick={() => setViewPassword(!viewPassword)} className='text-gray-500' style={{ marginLeft: '-30px', marginTop : '20px' }} size={20} />
+                    <FaEye onClick={() => setViewPassword(!viewPassword)} className='text-gray-500' style={{ marginLeft: '-30px', marginTop: '20px' }} size={20} />
                 }
               </div>
               {invalidPassword && <div className='text-yellow-500 mt-1 text-sm'>*Invalid Password</div>}
@@ -106,9 +224,9 @@ function Auth({ registerURL }) {
               <div className="text-center mt-5">
                 {
                   registerURL ?
-                    <button type="button" className="bg-green-700 p-2 w-full rounded hover:bg-green-800 transition cursor-pointer">Register</button>
+                    <button onClick={handleRegister} disabled={invalidUsername || invalidEmail || invalidPassword} type="button" className="bg-green-700 p-2 w-full rounded hover:bg-green-800 transition cursor-pointer">Register</button>
                     :
-                    <button type="button" className="bg-green-700 p-2 w-full rounded hover:bg-green-800 transition cursor-pointer">Login</button>
+                    <button onClick={handleLogin} disabled={invalidUsername || invalidEmail || invalidPassword} type="button" className="bg-green-700 p-2 w-full rounded hover:bg-green-800 transition cursor-pointer">Login</button>
                 }
 
               </div>
@@ -134,7 +252,9 @@ function Auth({ registerURL }) {
             </form>
           </div>
         </div>
-        <section className="Toastify" aria-live="polite" aria-atomic="false" aria-relevant="additions text" aria-label="Notifications Alt+T"></section>
+
+        <ToastContainer position="top-center" autoClose={3000} theme='colored' />
+
       </div>
 
     </>

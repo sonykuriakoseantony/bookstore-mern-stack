@@ -1,10 +1,23 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import Header from '../components/Header'
 import Footer from '../../components/Footer'
 import { FaSearch } from 'react-icons/fa'
 import { Link } from 'react-router-dom'
 
 function Home() {
+
+  const token = sessionStorage.getItem("token");
+  const userData = sessionStorage.getItem("token");
+
+  useEffect(() => {
+    setUserInfo(JSON.parse(userData));
+    setUserToken(token);
+  }, [])
+
+  const [userToken, setUserToken] = useState("");
+  const [userInfo, setUserInfo] = useState({});
+
+
   return (
     <>
       <Header />
@@ -25,12 +38,12 @@ function Home() {
           New Arrivals
         </h1>
         <h2 className='text-4xl my-2'>Explore our new arrivals</h2>
-        <div className='md:grid grid-cols-4 w-full my-10'>
+        <div className='md:grid grid-cols-3 w-full my-10'>
           {/* Duplicate book cards */}
           <div className='shadow rounded-lg p-3 mx-4 my-3 md:mt-0'>
             <img src="https://mir-s3-cdn-cf.behance.net/project_modules/fs/90822f55620761.598bf1d73ae0c.jpg" alt="Alchemist" style={{ width: '100%'}} />
             <div className='flex flex-col justify-center items-center m-4'>
-              <h3 className='text-blue-700 font-bold text-xl'>Author Name</h3>
+              <h3 className='text-blue-800 font-bold text-xl'>Author Name</h3>
               <p>Title</p>
               <p>$12</p>
             </div>
@@ -38,7 +51,7 @@ function Home() {
           <div className='shadow rounded-lg p-3 mx-4 my-3 md:mt-0'>
             <img src="https://mir-s3-cdn-cf.behance.net/project_modules/fs/90822f55620761.598bf1d73ae0c.jpg" alt="Alchemist" style={{ width: '100%'}} />
             <div className='flex flex-col justify-center items-center m-4'>
-              <h3 className='text-blue-700 font-bold text-xl'>Author Name</h3>
+              <h3 className='text-blue-800 font-bold text-xl'>Author Name</h3>
               <p>Title</p>
               <p>$12</p>
             </div>
@@ -46,54 +59,22 @@ function Home() {
           <div className='shadow rounded-lg p-3 mx-4 my-3 md:my-2'>
             <img src="https://mir-s3-cdn-cf.behance.net/project_modules/fs/90822f55620761.598bf1d73ae0c.jpg" alt="Alchemist" style={{ width: '100%'}} />
             <div className='flex flex-col justify-center items-center m-4'>
-              <h3 className='text-blue-700 font-bold text-xl'>Author Name</h3>
+              <h3 className='text-blue-800 font-bold text-xl'>Author Name</h3>
               <p>Title</p>
               <p>$12</p>
             </div>
           </div>
-          <div className='shadow rounded-lg p-3 mx-4 my-3 md:mt-0'>
+          <div className='shadow rounded-lg p-3 mx-4 my-3 md:my-2'>
             <img src="https://mir-s3-cdn-cf.behance.net/project_modules/fs/90822f55620761.598bf1d73ae0c.jpg" alt="Alchemist" style={{ width: '100%'}} />
             <div className='flex flex-col justify-center items-center m-4'>
-              <h3 className='text-blue-700 font-bold text-xl'>Author Name</h3>
-              <p>Title</p>
-              <p>$12</p>
-            </div>
-          </div>
-          <div className='shadow rounded-lg p-3 mx-4 my-3 md:mt-0'>
-            <img src="https://mir-s3-cdn-cf.behance.net/project_modules/fs/90822f55620761.598bf1d73ae0c.jpg" alt="Alchemist" style={{ width: '100%'}} />
-            <div className='flex flex-col justify-center items-center m-4'>
-              <h3 className='text-blue-700 font-bold text-xl'>Author Name</h3>
-              <p>Title</p>
-              <p>$12</p>
-            </div>
-          </div>
-          <div className='shadow rounded-lg p-3 mx-4 my-3 md:mt-0'>
-            <img src="https://mir-s3-cdn-cf.behance.net/project_modules/fs/90822f55620761.598bf1d73ae0c.jpg" alt="Alchemist" style={{ width: '100%'}} />
-            <div className='flex flex-col justify-center items-center m-4'>
-              <h3 className='text-blue-700 font-bold text-xl'>Author Name</h3>
-              <p>Title</p>
-              <p>$12</p>
-            </div>
-          </div>
-          <div className='shadow rounded-lg p-3 mx-4 my-3 md:mt-0'>
-            <img src="https://mir-s3-cdn-cf.behance.net/project_modules/fs/90822f55620761.598bf1d73ae0c.jpg" alt="Alchemist" style={{ width: '100%'}} />
-            <div className='flex flex-col justify-center items-center m-4'>
-              <h3 className='text-blue-700 font-bold text-xl'>Author Name</h3>
-              <p>Title</p>
-              <p>$12</p>
-            </div>
-          </div>
-          <div className='shadow rounded-lg p-3 mx-4 my-3 md:mt-0'>
-            <img src="https://mir-s3-cdn-cf.behance.net/project_modules/fs/90822f55620761.598bf1d73ae0c.jpg" alt="Alchemist" style={{ width: '100%'}} />
-            <div className='flex flex-col justify-center items-center m-4'>
-              <h3 className='text-blue-700 font-bold text-xl'>Author Name</h3>
+              <h3 className='text-blue-800 font-bold text-xl'>Author Name</h3>
               <p>Title</p>
               <p>$12</p>
             </div>
           </div>
         </div>
         <div className='text-center my-10'>
-          <Link to={'/books'} className='bg-blue-900 p-3 text-white font-black'>Explore More</Link>
+          <Link to={'/books'} className='bg-blue-900 p-3 text-white font-medium'>Explore More</Link>
         </div>
       </section>
       {/* Author */}
