@@ -2,21 +2,30 @@ import React, { useEffect, useState } from 'react'
 import Header from '../components/Header'
 import Footer from '../../components/Footer'
 import { FaSearch } from 'react-icons/fa'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
+import { toast, ToastContainer } from 'react-toastify'
 
 function Home() {
+  const [searchKey, setSearchKey] = useState("");
+  const navigate = useNavigate();
 
-  const token = sessionStorage.getItem("token");
-  const userData = sessionStorage.getItem("token");
-
-  useEffect(() => {
-    setUserInfo(JSON.parse(userData));
-    setUserToken(token);
-  }, [])
-
-  const [userToken, setUserToken] = useState("");
-  const [userInfo, setUserInfo] = useState({});
-
+  const handleSearch = () => {
+    if(!searchKey){
+      toast.warning("Input a search text")
+    }
+    else if(!sessionStorage.getItem("token")){
+      toast.warning("Login to search a book");
+      setTimeout(( ) => {
+        navigate('/login');
+      }, 2000)
+    }
+    else if(sessionStorage.getItem("token") && searchKey){
+      navigate('/books');
+    }
+    else{
+      toast.error("Something went wrong");
+    }
+  }
 
   return (
     <>
@@ -27,8 +36,8 @@ function Home() {
           <h1 className="text-5xl font-bold">Wonderful Gifts</h1>
           <p>Gift your family and friends a Book!</p>
           <div className="mt-9 flex items-center">
-            <input type="text" className="bg-white py-2 px-4 rounded-full w-100 text-black placeholder-gray-500" placeholder='Search a book' />
-            <FaSearch className='text-gray-500' style={{ marginLeft: '-40px' }} />
+            <input onChange={e=>setSearchKey(e.target.value)} type="text" className="bg-white py-2 px-4 rounded-full w-100 text-black placeholder-gray-500" placeholder='Search a book' />
+            <FaSearch onClick={handleSearch} className='text-gray-500' style={{ marginLeft: '-40px' }} />
           </div>
         </div>
       </div>
@@ -72,9 +81,17 @@ function Home() {
               <p>$12</p>
             </div>
           </div>
+          <div className='shadow rounded-lg p-3 mx-4 my-3 md:my-2'>
+            <img src="https://mir-s3-cdn-cf.behance.net/project_modules/fs/90822f55620761.598bf1d73ae0c.jpg" alt="Alchemist" style={{ width: '100%'}} />
+            <div className='flex flex-col justify-center items-center m-4'>
+              <h3 className='text-blue-800 font-bold text-xl'>Author Name</h3>
+              <p>Title</p>
+              <p>$12</p>
+            </div>
+          </div>
         </div>
-        <div className='text-center my-10'>
-          <Link to={'/books'} className='bg-blue-900 p-3 text-white font-medium'>Explore More</Link>
+        <div className='text-center mt-5 mb-10'>
+          <Link to={'/books'} className='transition duration-300 ease-in-out cursor-pointer py-3 px-4 rounded bg-blue-900 text-white border hover:bg-white hover:text-blue-800 hover:border-blue-800'>Explore More</Link>
         </div>
       </section>
       {/* Author */}
@@ -103,6 +120,7 @@ function Home() {
         <p className='mt-1 mb-3'>Treesa Joseph</p>
         <p className='text-justify'>Treesa Joseph an author and speaker recognized for his work on habits and improvement, including the New York Times bestseller, Atomic Habits, which has achieved significant global sales and translations. He speaks for major companies and his work has been featured in prominent publications.</p>
       </section>
+      <ToastContainer position="top-center" autoClose={3000} theme='colored' />
       <Footer />
     </>
   )

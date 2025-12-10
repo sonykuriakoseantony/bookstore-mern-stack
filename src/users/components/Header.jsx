@@ -1,5 +1,5 @@
-import React, { useState } from 'react'
-import { FaBars, FaHamburger, FaInstagram } from "react-icons/fa";
+import React, { useEffect, useState } from 'react'
+import { FaAddressCard, FaBars, FaHamburger, FaInstagram, FaPowerOff } from "react-icons/fa";
 import { FaFacebook } from "react-icons/fa";
 import { Link } from 'react-router-dom';
 import { BiUser } from 'react-icons/bi';
@@ -8,13 +8,25 @@ import { FaXTwitter } from 'react-icons/fa6';
 function Header() {
 
   const [toggle, setToggle] = useState(false)
+  const [userToken, setUserToken] = useState("");
+  const [userDp, setUserDp] = useState("");
+  const [dropDown, setDropDown] = useState(false);
+
+  useEffect(() => {
+    if (sessionStorage.getItem("token") && sessionStorage.getItem("user")) {
+      const currentUserToken = sessionStorage.getItem("token");
+      setUserToken(currentUserToken);
+      const userData = JSON.parse(sessionStorage.getItem("user"));
+      setUserDp(userData.picture);
+    }
+  }, [userToken])
 
   return (
     <>
       <div className='grid grid-cols-3 p-3'>
         {/* Logo */}
         <div className='w-full col-span-2 md:col-span-1'>
-          <Link to={'/'}  className='flex items-center '>
+          <Link to={'/'} className='flex items-center '>
             <img src="https://w7.pngwing.com/pngs/456/741/png-transparent-pile-of-books-computer-icons-book-stack-of-books-comic-book-photography-booking-thumbnail.png" alt="" width={'50px'} height={'50px'} />
             <h1 className="text-2xl font-bold ms-2 uppercase md:hidden">Book Store</h1>
           </Link>
@@ -30,21 +42,71 @@ function Header() {
             <a href="https://x.com/Luminartechno"><FaXTwitter /></a>
             <a href="https://www.facebook.com/luminartechnolab"><FaFacebook /></a>
           </div>
-          <Link to={'/login'} className='border border-black rounded py-2 px-3 flex justify-center items-center gap-2 hover:bg-black hover:text-white'>
-            <BiUser className='me-1'/> Login
-          </Link>
+          {/* Login link */}
+          {
+            !userToken ? (
+              <Link to={'/login'} className='border border-black rounded py-2 px-3 flex justify-center items-center gap-2 hover:bg-black hover:text-white'>
+                <BiUser className='me-1' /> Login
+              </Link>
+            )
+              :
+              (
+                <div className=''>
+                  <button onClick={()=>setDropDown(!dropDown)} className='cursor-pointer shadow-sm rounded ms-5 p-2 hover:bg-gray-100'>
+                    <img src={userDp ? userDp : "/user.png"} alt="Profile picture" width={'40px'} height={'40px'} className='rounded-full' />
+                  </button>
+                  {/* Dropdown content can go here */}
+                  {
+                    dropDown &&
+                    <div className='shadow rounded p-2 absolute mt-2 right-3 bg-white z-10 w-40 ring-1 ring-black/5 focus:outline-hidden'>
+                    {/* Profile link */}
+                    <Link to={'/user/profile'} className='flex items-center text-gray-700 text-sm px-3 py-2'>
+                      <FaAddressCard className='me-2' /> Profile    </Link>
+                    {/* Logout button */}
+                    <button className='flex items-center text-gray-700 text-sm px-3 py-2'>
+                      <FaPowerOff className='me-2' /> Logout    </button>
+                  </div>
+                  }
+                </div>
+              )
+          }
         </div>
       </div>
       <nav id='secondaryHeaderNav' className='w-full px-3 py-1 md:flex justify-center items-center gap-2 bg-black text-white'>
         <div className="flex justify-between items-center text-2xl md:hidden">
-          <button className='cursor-pointer' onClick={()=>setToggle(!toggle)}>
+          <button className='cursor-pointer' onClick={() => setToggle(!toggle)}>
             <FaBars />
           </button>
-          <Link to={'/login'} className='border border-black rounded py-2 px-3 flex justify-center items-center gap-2'>
-            <BiUser /> Login
-          </Link>
+          {/* Login link */}
+          {
+            !userToken ? (
+              <Link to={'/login'} className='border border-black rounded py-2 px-3 flex justify-center items-center gap-2 hover:bg-black hover:text-white'>
+                <BiUser className='me-1' /> Login
+              </Link>
+            )
+              :
+              (
+                <div className=''>
+                  <button onClick={()=>setDropDown(!dropDown)} className='cursor-pointer shadow-sm rounded ms-5 p-2 hover:bg-gray-100'>
+                    <img src={userDp ? userDp : "/user.png"} alt="Profile picture" width={'40px'} height={'40px'} className='rounded-full' />
+                  </button>
+                  {/* Dropdown content can go here */}
+                  {
+                    dropDown &&
+                    <div className='shadow rounded p-2 absolute mt-2 right-3 bg-white z-10 w-40 ring-1 ring-black/5 focus:outline-hidden'>
+                    {/* Profile link */}
+                    <Link to={'/user/profile'} className='flex items-center text-gray-700 text-sm px-3 py-2'>
+                      <FaAddressCard className='me-2' /> Profile    </Link>
+                    {/* Logout button */}
+                    <button className='flex items-center text-gray-700 text-sm px-3 py-2'>
+                      <FaPowerOff className='me-2' /> Logout    </button>
+                  </div>
+                  }
+                </div>
+              )
+          }
         </div>
-        <ul className={toggle?'flex flex-col uppercase gap-3 py-2':'hidden md:flex justify-center items-center uppercase py-2'}>
+        <ul className={toggle ? 'flex flex-col uppercase gap-3 py-2' : 'hidden md:flex justify-center items-center uppercase py-2'}>
           <li className='md:mx-4'>
             <Link to={'/'}>Home</Link>
           </li>

@@ -4,7 +4,9 @@ import { CgEyeAlt } from 'react-icons/cg'
 import { FaEye, FaEyeSlash } from 'react-icons/fa'
 import { Link, useNavigate } from 'react-router-dom'
 import { ToastContainer, toast } from 'react-toastify'
-import { loginAPI, registerAPI } from '../services/allAPI'
+import { googleLoginAPI, loginAPI, registerAPI } from '../services/allAPI'
+import { GoogleLogin } from '@react-oauth/google'
+import { jwtDecode } from 'jwt-decode'
 
 
 function Auth({ registerURL }) {
@@ -66,7 +68,7 @@ function Auth({ registerURL }) {
 
     if (username && email && password) {
       console.log(username, email, password);
-      
+
       // console.log("Ready for API call !");
       try {
 
@@ -93,7 +95,7 @@ function Auth({ registerURL }) {
           })
           navigate('/login');
         }
-        else{
+        else {
           toast.error("Something went wrong. Please try again later !");
           setUserDetails({
             username: '',
@@ -119,7 +121,7 @@ function Auth({ registerURL }) {
 
     if (email && password) {
       console.log(email, password);
-      
+
       // console.log("Ready for API call !");
       try {
 
@@ -139,13 +141,13 @@ function Auth({ registerURL }) {
             password: ''
           })
 
-          setTimeout(( ) => {
-              if(result.data.user.role == 'admin'){
-                  navigate('/admin/home');
-              }
-              else{
-                navigate('/');
-              }
+          setTimeout(() => {
+            if (result.data.user.role == 'admin') {
+              navigate('/admin/home');
+            }
+            else {
+              navigate('/');
+            }
           }, 2500)
         }
         else if (result.status == 401 || result.status == 404) {
@@ -157,7 +159,7 @@ function Auth({ registerURL }) {
           })
           navigate('/');
         }
-        else{
+        else {
           toast.error("Something went wrong. Please try again later !");
           setUserDetails({
             username: '',
@@ -173,6 +175,34 @@ function Auth({ registerURL }) {
     }
     else {
       toast.warning("Please fill all the details !")
+    }
+  }
+
+  const handleGoogleLogin = async (credentialResponse) => {
+    console.log("Inside Google login");
+    // console.log(credentialResponse);
+    const decode = jwtDecode(credentialResponse.credential)
+    console.log(decode);
+    console.log(decode.name, decode.email, decode.picture);
+
+    const result = await googleLoginAPI({ username: decode.name, email: decode.email, password: 'googlepassword', picture: decode.picture, })
+    if (result.status == 200) {
+      toast.success("Login successful!!")
+      sessionStorage.setItem("token", result.data.token);
+      sessionStorage.setItem("user", JSON.stringify(result.data.user));
+
+      setTimeout(() => {
+        if (result.data.user.role == 'admin') {
+          navigate('/admin/home');
+        }
+        else {
+          navigate('/');
+        }
+      }, 2500)
+    }
+    else {
+      toast.error("Something went wrong. Please try again later !");
+      console.log(result);
     }
   }
 
@@ -231,14 +261,27 @@ function Auth({ registerURL }) {
 
               </div>
               {/* Google authentication */}
-              {/* <div className="my-5 text-center">
-                <p>----------------or----------------</p>
-                <div className="my-5 flex justify-center w-full">
-                  <div style={{ height: "40px" }} >
+              <div className="my-5 text-center">
+                {
+                  registerURL &&
+                  <>
+                    <p>----------------or----------------</p>
+                    <div className="my-5 flex justify-center w-full">
+                      <div style={{ height: "40px" }} >
+                        <GoogleLogin
+                          onSuccess={credentialResponse => {
+                            handleGoogleLogin(credentialResponse)
+                          }}
+                          onError={() => {
+                            console.log('Login Failed');
+                          }}
+                        />
+                      </div>
+                    </div>
+                  </>
+                }
 
-                  </div>
-                </div>
-              </div> */}
+              </div>
 
               {/* Have an account or not */}
               <div className="my-5 text-center">
