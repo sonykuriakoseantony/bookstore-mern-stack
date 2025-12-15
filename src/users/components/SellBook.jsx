@@ -20,7 +20,26 @@ function SellBook() {
   const [preview, setPreview] = useState("");
   const [previewThumbnails, setPreviewThumbnails] = useState([]);
 
-  console.log(bookDetails);
+  // console.log(bookDetails);
+
+  const handleResetForm = () => {
+    setBookDetails ({
+      title: "",
+    author: "",
+    pages: "",
+    imageURL: "",
+    price: "",
+    discountPrice: "",
+    abstract: "",
+    publisher: "",
+    language: "",
+    isbn: "",
+    category: "",
+    uploadImg: []
+    })
+    setPreview("");
+    setPreviewThumbnails([]);
+  }
 
   const handleBookImageUpload = (e) => {
     console.log(e.target.files[0]);
@@ -110,7 +129,7 @@ function SellBook() {
             </div>
           </div>
           <div className="p-3 w-full flex md:justify-end justify-center  mt-8">
-            <button className="transition duration-300 ease-in-out cursor-pointer py-2 px-3 rounded bg-gray-600 text-white border hover:bg-white hover:text-gray-600 hover:border-gray-600" >Reset</button>
+            <button onClick={handleResetForm} className="transition duration-300 ease-in-out cursor-pointer py-2 px-3 rounded bg-gray-600 text-white border hover:bg-white hover:text-gray-600 hover:border-gray-600" >Reset</button>
             <button className="transition duration-300 ease-in-out cursor-pointer py-2 px-3 rounded bg-blue-900 text-white ms-3 border hover:bg-white hover:text-blue-900 hover:border-blue-900">Save Details</button>
           </div>
         </div>
