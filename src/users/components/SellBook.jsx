@@ -1,5 +1,7 @@
 import React, { useState } from 'react'
-import { FaPlus, FaPlusSquare } from 'react-icons/fa';
+import { FaPlusSquare } from 'react-icons/fa';
+import { toast, ToastContainer } from 'react-toastify';
+import { addBookAPI } from '../../services/allAPI'
 
 function SellBook() {
   const [bookDetails, setBookDetails] = useState({
@@ -20,42 +22,92 @@ function SellBook() {
   const [preview, setPreview] = useState("");
   const [previewThumbnails, setPreviewThumbnails] = useState([]);
 
-  // console.log(bookDetails);
+  console.log(bookDetails);
 
   const handleResetForm = () => {
-    setBookDetails ({
+    setBookDetails({
       title: "",
-    author: "",
-    pages: "",
-    imageURL: "",
-    price: "",
-    discountPrice: "",
-    abstract: "",
-    publisher: "",
-    language: "",
-    isbn: "",
-    category: "",
-    uploadImg: []
+      author: "",
+      pages: "",
+      imageURL: "",
+      price: "",
+      discountPrice: "",
+      abstract: "",
+      publisher: "",
+      language: "",
+      isbn: "",
+      category: "",
+      uploadImg: []
     })
     setPreview("");
     setPreviewThumbnails([]);
   }
 
-  const handleBookImageUpload = (e) => {
-    console.log(e.target.files[0]);
-    const file = e.target.files[0]
-    const uploadImageArray = [];
-    uploadImageArray.push(file);
 
-    setBookDetails({ ...bookDetails, uploadImg: uploadImageArray })
+  const handleBookImageUpload = (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
 
     const url = URL.createObjectURL(file);
+    setBookDetails(prev => ({
+      ...prev,
+      uploadImg: [...prev.uploadImg, file]
+    }));
+
     setPreview(url);
 
-    const demoThumbnails = previewThumbnails;
-    demoThumbnails.push(url);
-    setPreviewThumbnails(demoThumbnails)
+    setPreviewThumbnails(prev => [...prev, url]);
 
+  }
+
+  const handleUploadBookForm = async () => {
+    // check all fields have values
+    const { title, author, pages, imageURL, price, discountPrice, abstract, publisher, language, isbn, category, uploadImg } = bookDetails;
+    if (!title || !author || !pages || !imageURL || !price || !discountPrice || !abstract || !publisher || !language || !isbn || !category || uploadImg.length == 0) {
+      toast.info("Please fill all the fields");
+      return;
+    }
+    else {
+      console.log("Book details uploaded successfully. Call API to save the data.");
+
+      const token = sessionStorage.getItem("token");
+      if (token) {
+        //create request header
+        const reqHeader = {
+          "Authorization": `Bearer ${token}`
+        }
+
+        //create request body with formdata
+
+        //serialize formdata using FormData class of Javascript
+        const reqBody = new FormData();
+        for (let key in bookDetails) {
+          if (key != "uploadImg") {
+            reqBody.append(key, bookDetails[key])
+          }
+          else {
+            uploadImg.forEach(item => {
+              reqBody.append("uploadImg", item)
+            })
+          }
+        }
+
+        //call api with reqheader and reqbody
+        const result = await addBookAPI(reqBody, reqHeader);
+        if (result.status == 200) {
+          toast.success("Book details saved successfully");
+        }
+        else if (result.status == 409) {
+          toast.warning(result.response.data);
+        } else {
+          toast.error("Something went wrong!")
+          console.log(result);
+
+        }
+        //clear the form after api call response received
+        handleResetForm();
+      }
+    }
   }
 
 
@@ -103,8 +155,8 @@ function SellBook() {
                 <input value={bookDetails.category} onChange={(e) => setBookDetails({ ...bookDetails, category: e.target.value })} placeholder="Category" className="w-full p-2 rounded placeholder-gray-400 text-black bg-white" type="text" />
               </div>
               <div className="mb-3 flex justify-center items-center mt-10">
-                <label htmlFor="uploadProfile" className='cursor-pointer'>
-                  <input onChange={e => handleBookImageUpload(e)} id="uploadProfile" className="hidden cursor-pointer" type="file" name=""  disabled={previewThumbnails?.length}/>
+                <label htmlFor="uploadProfile" className={`${previewThumbnails?.length > 0 ? "" : "cursor-pointer"}`}>
+                  <input onChange={e => handleBookImageUpload(e)} id="uploadProfile" className="hidden" type="file" name="" disabled={previewThumbnails?.length} />
                   <img width="200px" height="200px" alt="upload" src={preview ? preview : "/upload-file.webp"} />
 
                 </label>
@@ -130,10 +182,11 @@ function SellBook() {
           </div>
           <div className="p-3 w-full flex md:justify-end justify-center  mt-8">
             <button onClick={handleResetForm} className="transition duration-300 ease-in-out cursor-pointer py-2 px-3 rounded bg-gray-600 text-white border hover:bg-white hover:text-gray-600 hover:border-gray-600" >Reset</button>
-            <button className="transition duration-300 ease-in-out cursor-pointer py-2 px-3 rounded bg-blue-900 text-white ms-3 border hover:bg-white hover:text-blue-900 hover:border-blue-900">Save Details</button>
+            <button onClick={handleUploadBookForm} className="transition duration-300 ease-in-out cursor-pointer py-2 px-3 rounded bg-blue-900 text-white ms-3 border hover:bg-white hover:text-blue-900 hover:border-blue-900">Save Details</button>
           </div>
         </div>
       </div>
+      <ToastContainer autoClose={3000} position="top-center" theme='colored' />
     </>
   )
 }
