@@ -3,17 +3,41 @@ import Header from '../components/Header'
 import Footer from '../../components/Footer'
 import { FaBars } from 'react-icons/fa'
 import { Link } from 'react-router-dom'
+import { getAllPageBooksAPI } from '../../services/allAPI'
 
 function BooksArchive() {
   const [toggle, setToggle] = useState(false);
   const [userToken, setUserToken] = useState("");
+  const [allBooks, setAllBooks] = useState([]);
+
+  console.log(allBooks);
 
   useEffect(() => {
     if (sessionStorage.getItem("token")) {
       const currentUserToken = sessionStorage.getItem("token");
       setUserToken(currentUserToken);
     }
+    getAllBooks();
   }, [userToken])
+
+  const getAllBooks = async () => {
+
+    const token = sessionStorage.getItem("token");
+    const reqHeader = {
+      "Authorization": `Bearer ${token}`
+    }
+
+    const result = await getAllPageBooksAPI(reqHeader);
+
+    if (result.status == 200) {
+      setAllBooks(result.data)
+    }
+    else {
+      console.log(result);
+
+    }
+
+  }
 
   return (
     <>
@@ -30,7 +54,7 @@ function BooksArchive() {
             </div>
 
             {/* Books card and filter side bar */}
-            <div className='md:px-20 mb-10 md:grid grid-cols-4 p-5'>
+            <div className='md:px-20 mb-10 md:grid grid-cols-5 p-5'>
               {/* Filter */}
               <div className='col-span-1'>
                 <div className='flex justify-between'>
@@ -52,24 +76,29 @@ function BooksArchive() {
               </div>
 
               {/* Bokks cards */}
-              <div className='col-span-3'>
+              <div className='col-span-4'>
                 <div className='md:grid grid-cols-3 w-full mt-5 md:mt-0'>
-                  <div className='shadow rounded-lg p-3 mx-4 my-3 md:mt-0 '>
-                    <img src="https://mir-s3-cdn-cf.behance.net/project_modules/fs/90822f55620761.598bf1d73ae0c.jpg" alt="Alchemist" style={{ width: '100%' }} />
-                    <div className='flex flex-col justify-center items-center m-4'>
-                      <h3 className='text-blue-800 font-bold text-xl'>Author Name</h3>
-                      <p>Title</p>
-                      <Link to={'/books/1/view'} className='mt-2 transition duration-300 ease-in-out cursor-pointer py-2 px-3 rounded bg-blue-900 text-white border hover:bg-white hover:text-blue-800 hover:border-blue-800'>View Book</Link>
-                    </div>
-                  </div>
-                  <div className='shadow rounded-lg p-3 mx-4 my-3 md:mt-0 '>
-                    <img src="https://mir-s3-cdn-cf.behance.net/project_modules/fs/90822f55620761.598bf1d73ae0c.jpg" alt="Alchemist" style={{ width: '100%' }} />
-                    <div className='flex flex-col justify-center items-center m-4'>
-                      <h3 className='text-blue-800 font-bold text-xl'>Author Name</h3>
-                      <p>Title</p>
-                      <Link to={'/books/1/view'} className='mt-2 transition duration-300 ease-in-out cursor-pointer py-2 px-3 rounded bg-blue-900 text-white border hover:bg-white hover:text-blue-800 hover:border-blue-800'>View Book</Link>
-                    </div>
-                  </div>
+                  {/* Duplicated books cards */}
+
+                  {
+                    allBooks?.length > 0 ?
+                      allBooks?.map(books => (
+                        <div key={books?._id} className='shadow rounded-lg p-3 mx-4 my-3 md:mt-0 '>
+                          <div style={{ width: '100%', height: '350px', overflow: 'hidden' }}>
+                            <img src={books?.imageURL} alt={books?.title} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                          </div>
+                          <div className='flex flex-col justify-center items-start m-4'>
+                            <h3 className='text-blue-800 font-bold text-xl'>{books?.author}</h3>
+                            <p>{books?.title}</p>
+                            <Link to={`/books/${books?._id}/view`} className='mt-2 transition duration-300 ease-in-out cursor-pointer py-2 px-3 rounded bg-blue-900 text-white border hover:bg-white hover:text-blue-800 hover:border-blue-800'>View Book</Link>
+                          </div>
+                        </div>
+                      ))
+                      :
+                      <p>Books loading...</p>
+                  }
+
+
                 </div>
               </div>
 
@@ -79,7 +108,7 @@ function BooksArchive() {
           <>
             <div className="my-10 flex justify-center items-center flex-col min-h-[50vh]">
               <img className="w-75" alt="lock" src="https://cdn-icons-gif.flaticon.com/11255/11255957.gif" />
-                <p className="font-semibold text-xl mt-6">Please <Link className="text-blue-700 font-bold underline" to={'/login'} >Login</Link> To Explore More....</p>
+              <p className="font-semibold text-xl mt-6">Please <Link className="text-blue-700 font-bold underline" to={'/login'} >Login</Link> To Explore More....</p>
             </div>
           </>
       }
