@@ -1,18 +1,18 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import Header from '../components/Header'
 import Footer from '../../components/Footer'
 import { FaSearch } from 'react-icons/fa'
 import { Link, useNavigate } from 'react-router-dom'
 import { toast, ToastContainer } from 'react-toastify'
 import { getHomePageBooksAPI } from '../../services/allAPI'
+import { searchContext } from '../../contextAPI/ShareContext'
 
 function Home() {
-  const [searchKey, setSearchKey] = useState("");
+  // const [searchKey, setSearchKey] = useState(""); // Instead of using states we ar now taking values from shared global context for the search key
+  const {searchKey, setSearchKey} = useContext(searchContext);
+
   const navigate = useNavigate();
   const [homeBooks, setHomeBooks] = useState([]);
-
-  console.log(homeBooks);
-
 
   useEffect(() => {
     getHomeBooks();

@@ -22,8 +22,6 @@ function SellBook() {
   const [preview, setPreview] = useState("");
   const [previewThumbnails, setPreviewThumbnails] = useState([]);
 
-  console.log(bookDetails);
-
   const handleResetForm = () => {
     setBookDetails({
       title: "",

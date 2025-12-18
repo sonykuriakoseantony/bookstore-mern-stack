@@ -3,7 +3,6 @@ import { getAllUserProfileBooksAPI } from '../../services/allAPI';
 
 function BookStatus() {
   const [allBooks, setAllBooks] = useState([]);
-  console.log(allBooks);
 
   useEffect(() => {
     getAllUserProfileBooks()

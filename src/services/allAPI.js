@@ -28,8 +28,8 @@ export const getHomePageBooksAPI = async () => {
 }
 
 ///all-books : get books request by books component on page load
-export const getAllPageBooksAPI = async (reqHeader) => {
-    return await commonAPI("GET", `${serverURL}/all-books`, {}, reqHeader);
+export const getAllPageBooksAPI = async (reqHeader, searchKey) => {
+    return await commonAPI("GET", `${serverURL}/all-books/?search=${searchKey}`, {}, reqHeader);
 }
 
 // /user-books : get books added by user  - called by
