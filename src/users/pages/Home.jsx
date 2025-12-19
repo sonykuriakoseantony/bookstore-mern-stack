@@ -8,7 +8,7 @@ import { getHomePageBooksAPI } from '../../services/allAPI'
 import { searchContext } from '../../contextAPI/ShareContext'
 
 function Home() {
-  // const [searchKey, setSearchKey] = useState(""); // Instead of using states we ar now taking values from shared global context for the search key
+  // const [searchKey, setSearchKey] = useState(""); // Instead of using states we are now taking values from shared global context for the search key, which is declared below
   const {searchKey, setSearchKey} = useContext(searchContext);
 
   const navigate = useNavigate();

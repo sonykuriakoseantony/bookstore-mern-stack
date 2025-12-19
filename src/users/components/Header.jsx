@@ -4,6 +4,7 @@ import { FaFacebook } from "react-icons/fa";
 import { Link, useNavigate } from 'react-router-dom';
 import { BiUser } from 'react-icons/bi';
 import { FaXTwitter } from 'react-icons/fa6';
+import serverURL from "../../services/serverURL"
 
 function Header() {
 
@@ -63,7 +64,9 @@ function Header() {
               (
                 <div className=''>
                   <button onClick={()=>setDropDown(!dropDown)} className='cursor-pointer shadow-sm rounded ms-5 p-2 hover:bg-gray-100'>
-                    <img src={userDp ? userDp : "/user.png"} alt="Profile picture" width={'40px'} height={'40px'} className='rounded-full' />
+                    <div style={{ width: '40px', height: '40px', borderRadius: '50%'}} className='bg-white overflow-hidden'>
+                      <img src={userDp == "" ? "/user.png" : userDp.startsWith("https://lh3.googleusercontent.com/") ? userDp : `${serverURL}/uploads/${userDp}`} alt="Profile image" style={{objectFit : 'cover', width : '100%', height : '100%'}} />
+                    </div>
                   </button>
                   {/* Dropdown content can go here */}
                   {
@@ -98,7 +101,9 @@ function Header() {
               (
                 <div className=''>
                   <button onClick={()=>setDropDown(!dropDown)} className='cursor-pointer shadow-sm rounded ms-5 p-2 hover:bg-gray-100'>
-                    <img src={userDp ? userDp : "/user.png"} alt="Profile picture" width={'40px'} height={'40px'} className='rounded-full' />
+                    <div style={{ width: '40px', height: '40px', borderRadius: '50%'}} className='bg-white overflow-hidden'>
+                      <img src={userDp == "" ? "/user.png" : userDp.startsWith("https://lh3.googleusercontent.com/") ? userDp : `${serverURL}/uploads/${userDp}`} alt="Profile image" width={'100%'} height={'100%'} className="object-cover" />
+                    </div>
                   </button>
                   {/* Dropdown content can go here */}
                   {

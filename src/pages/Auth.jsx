@@ -1,6 +1,5 @@
 import React, { useState } from 'react'
 import { BiUser } from 'react-icons/bi'
-import { CgEyeAlt } from 'react-icons/cg'
 import { FaEye, FaEyeSlash } from 'react-icons/fa'
 import { Link, useNavigate } from 'react-router-dom'
 import { ToastContainer, toast } from 'react-toastify'

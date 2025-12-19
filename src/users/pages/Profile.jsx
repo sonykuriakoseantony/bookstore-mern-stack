@@ -7,6 +7,7 @@ import Edit from '../components/Edit'
 import SellBook from '../components/SellBook'
 import BookStatus from '../components/BookStatus'
 import Purchase from '../components/Purchase'
+import serverURL from "../../services/serverURL"
 
 function Profile() {
 
@@ -32,8 +33,8 @@ function Profile() {
       <Header />
       <div style={{ height: '200px' }} className='bg-black'>
       </div>
-      <div style={{ width: '230px', height: '230px', borderRadius: '50%', marginLeft: '70px', marginTop: '-100px' }} className='bg-white p-3'>
-        <img src={userDp ? userDp : "/user.png"} alt="Profile image" width={'200px'} height={'200px'} style={{ borderRadius: '50%' }} />
+      <div style={{ width: '230px', height: '230px', borderRadius: '50%', marginLeft: '70px', marginTop: '-100px' }} className='bg-white overflow-hidden'>
+        <img src={userDp=="" ? "https://cdn-icons-png.flaticon.com/512/12225/12225773.png" : userDp.startsWith("https://lh3.googleusercontent.com/") ? userDp : `${serverURL}/uploads/${userDp}` } alt="Profile image" style={{objectFit : 'cover', width : '100%', height : '100%'}} />
       </div>
       <div className='flex justify-between px-5 md:px-20 mt-5'>
         <div className='flex items-center'>

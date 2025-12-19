@@ -37,9 +37,14 @@ export const getAllUserProfileBooksAPI = async (reqHeader) => {
     return await commonAPI("GET", `${serverURL}/user-books`, {}, reqHeader);
 }
 
-// /user-books/bought : get books bought by user  - called by
+// /user-books/bought : get books bought by user  - called by Purchase component
 export const getAllUserBoughtBooksAPI = async (reqHeader) => {
     return await commonAPI("GET", `${serverURL}/user-books/bought`, {}, reqHeader);
+}
+
+// /user/:id/edit : Edit - called by Edit Component using put request
+export const updatetUserProfileAPI = async (id, reqBody, reqHeader) => {
+    return await commonAPI("PUT", `${serverURL}/user/${id}/edit`, reqBody, reqHeader);
 }
 
 
