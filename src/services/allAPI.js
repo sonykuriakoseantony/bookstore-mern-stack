@@ -47,4 +47,14 @@ export const updatetUserProfileAPI = async (id, reqBody, reqHeader) => {
     return await commonAPI("PUT", `${serverURL}/user/${id}/edit`, reqBody, reqHeader);
 }
 
+// edit user API
+export const editUserAPI = async (id, reqBody, reqHeader) => {
+    return await commonAPI("PUT", `${serverURL}/user/${id}/edit`, reqBody, reqHeader);
+}
+
+// get a single book details
+export const getSingleBookDetailsAPI = async (id, reqHeader) => {
+    return await commonAPI("GET", `${serverURL}/books/${id}/view`, {}, reqHeader);
+}
+
 

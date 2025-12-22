@@ -38,7 +38,7 @@ function Header() {
         {/* Logo */}
         <div className='w-full col-span-2 md:col-span-1'>
           <Link to={'/'} className='flex items-center '>
-            <img src="https://w7.pngwing.com/pngs/456/741/png-transparent-pile-of-books-computer-icons-book-stack-of-books-comic-book-photography-booking-thumbnail.png" alt="" width={'50px'} height={'50px'} />
+            <img src="/bookstore-logo.png" alt="" width={'50px'} height={'50px'} />
             <h1 className="text-2xl font-bold ms-2 uppercase md:hidden">Book Store</h1>
           </Link>
         </div>
