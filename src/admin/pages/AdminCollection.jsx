@@ -1,10 +1,63 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import AdminHeader from '../components/AdminHeader'
 import Footer from '../../components/Footer'
 import AdminSideBar from '../components/AdminSideBar'
+import { getAllAdminBooksAPI, getAllUsersAPI } from '../../services/allAPI';
+import serverURL from '../../services/serverURL';
 
 function AdminCollection() {
-  const [tabIndex, setTabIndex] = useState(1)
+  const [tabIndex, setTabIndex] = useState(1);
+  const [allBooks, setAllBooks] = useState([]);
+  const [allUsers, setAllUsers] = useState([])
+
+  console.log(allBooks);
+  console.log(allUsers);
+
+  useEffect(() => {
+    const token = sessionStorage.getItem("token");
+    if (token) {
+      if (tabIndex == 1) {
+        getAllBooks(token);
+      }
+      else {
+        // get all users
+        getAllUsersByAdmin(token)
+      }
+    }
+  }, [tabIndex])
+
+  const getAllBooks = async (token) => {
+    const reqHeader = {
+      "Authorization": `Bearer ${token}`
+    }
+
+    // call api to get book details
+    const result = await getAllAdminBooksAPI(reqHeader);
+
+    if (result.status == 200) {
+      setAllBooks(result.data)
+    }
+    else {
+      console.log(result);
+    }
+  }
+
+  const getAllUsersByAdmin = async (token) => {
+    const reqHeader = {
+      "Authorization": `Bearer ${token}`
+    }
+
+    // call api to get book details
+    const result = await getAllUsersAPI(reqHeader);
+
+    if (result.status == 200) {
+      setAllUsers(result.data)
+    }
+    else {
+      console.log(result);
+    }
+  }
+
   return (
     <>
       <AdminHeader />
@@ -22,42 +75,72 @@ function AdminCollection() {
             </div>
           </div>
           {/* Contents */}
-            {
-              tabIndex == 1 &&
-              <div className='md:grid grid-cols-3 w-full my-5'>
-                <div className='shadow rounded-lg p-3 mx-4 my-3 md:mt-0 text-center'>
-                  <img src="https://mir-s3-cdn-cf.behance.net/project_modules/fs/90822f55620761.598bf1d73ae0c.jpg" alt="Alchemist" style={{ width: '100%' }} />
-                  <div className='flex flex-col justify-center items-center m-4'>
-                    <h3 className='text-blue-700 font-bold text-xl'>Author Name</h3>
-                    <p>Title</p>
-                    <p>$12</p>
-                  </div>
-                  <button className='text-center transition duration-300 ease-in-out cursor-pointer py-2 px-3 rounded bg-green-800 text-white border hover:bg-white hover:text-green-800 hover:border-green-800'>Approve</button>
-                </div>
-
-                
-              </div>
-            }
-            {
-              tabIndex == 2 &&
-              <div className='md:grid grid-cols-3 w-full my-5'> 
-              {/* Duplicate user card */}
-                <div className='rounded bg-gray-200 py-3 px-5 m-2'>
-                  <p className='text-red-600 font-bold ps-2'>ID : 2457822 546546</p>
-
-                 <div className='flex items-center mt-3'> 
-                  <div class="flex justify-center">
-                    <img alt="Profile pic" src="/author.jpg" width={'150px'} height={'150px'} className='rounded-full'/>
+          {
+            tabIndex == 1 &&
+            <div className='md:grid grid-cols-3 w-full my-5'>
+              {/* Duplicate Book cards */}
+              {
+                allBooks?.length > 0 ?
+                  allBooks?.map((book) => (
+                    <div key={book?._id} className='shadow rounded-lg p-3 mx-4 my-3 md:mt-0 text-center'>
+                      <img src={book?.imageURL} alt="Alchemist" style={{ width: '100%' }} />
+                      <div className='flex flex-col justify-center items-center m-4'>
+                        <h3 className='text-blue-700 font-bold text-xl'>{book?.author}</h3>
+                        <p>{book?.title}</p>
+                        <p>${book?.price}</p>
+                      </div>
+                      <button className='text-center transition duration-300 ease-in-out cursor-pointer py-2 px-3 rounded bg-green-800 text-white border hover:bg-white hover:text-green-800 hover:border-green-800'>Approve</button>
                     </div>
-                  <div className='flex flex-col ml-3 w-full'>
-                      <h4 className='text-blue font-bold text-lg'>User name</h4>
-                      email
-                  </div>
-                  </div>
+                  ))
 
-                </div>
-              </div>
-            }
+                  :
+
+                  <p className='font-bold text-lg text-red-700'>No Books to display</p>
+              }
+
+
+
+            </div>
+          }
+          {
+            tabIndex == 2 &&
+            <div className='md:grid grid-cols-3 w-full my-5'>
+              {/* Duplicate user card */}
+              {
+                allUsers?.length > 0 ?
+                  allUsers?.map(user => (
+                    <div key={user?._id} className='rounded bg-gray-200 pt-3 pb-4 px-5 m-2'>
+                      <p className='text-red-600 font-bold ps-2'>ID : {user?._id}</p>
+
+                      <div className='flex items-center mt-3'>
+                        <div className="flex justify-center">
+                          {
+                            user?.picture?
+                            <img alt="Profile pic" src={user?.picture.startsWith("https://lh3.googleusercontent.com/") ?user?.picture : `${serverURL}/uploads/${user?.picture}`} width={'60px'} height={'60px'} className='rounded-full shrink-0' />
+                              
+                            :
+
+                            <img alt="Profile pic" src="https://cdn-icons-png.flaticon.com/512/12225/12225773.png" width={'60px'} height={'60px'} className='rounded-full shrink-0' />
+                              
+                          }
+                          
+                          
+                        </div>
+                        <div className='flex flex-col ml-3 w-full'>
+                          <h4 className='text-blue font-bold text-lg'>{user?.username}</h4>
+                          <p className='text-sm' style={{wordBreak : "break-all"}}>{user?.email}</p>
+                        </div>
+                      </div>
+                    </div>
+                  ))
+
+                  :
+
+                  <p className='font-bold text-lg text-red-700'>No Users to display</p>
+              }
+
+            </div>
+          }
 
         </div>
       </div>

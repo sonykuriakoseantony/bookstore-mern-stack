@@ -99,7 +99,7 @@ function ViewBook() {
 
                           :
 
-                          <p>No uploaded images of book available</p>
+                          <p className='font-bold text-lg'>No uploaded images of book available</p>
                       }
                     </div>
                   </div>

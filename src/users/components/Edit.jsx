@@ -20,7 +20,7 @@ function Edit() {
   useEffect(() => {
     if (sessionStorage.getItem("user")) {
       const user = JSON.parse(sessionStorage.getItem("user"));
-      setUserDetails({ ...userDetails, username: user.username, password: user.password, cpassword: user.cpassword, role: user.role, bio: user.bio,id: user._id })
+      setUserDetails({ ...userDetails, username: user.username, password: user.password, cpassword: user.cpassword?user.cpassword: "", role: user.role, bio: user.bio,id: user._id })
       setExistingUserImage(user.picture)
     }
   }, [])
@@ -48,7 +48,7 @@ function Edit() {
     const url = URL.createObjectURL(file);
     setUserDetails(prev => ({
       ...prev,
-      picture: [...prev.picture, file]
+      picture: file
     }));
 
     setPreview(url);
@@ -66,6 +66,8 @@ function Edit() {
 
   const handleUpdateUser = async () => {
     const {username, password, cpassword, bio, picture, role, id} = userDetails;
+    console.log(username, password, cpassword, bio, picture, role, id);
+    
     if(!username || !password || !cpassword || !bio){
       toast.info("Please fill all the fields");
       return;

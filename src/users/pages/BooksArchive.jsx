@@ -107,7 +107,7 @@ function BooksArchive() {
                   {
                     allBooks?.length > 0 ?
                       allBooks?.map(books => (
-                        <div key={books?._id} className='shadow rounded-lg p-3 mx-4 my-8 md:mt-0 '>
+                        <div key={books?._id} className='shadow rounded-lg p-3 mx-4 my-8 md:mt-0' hidden={books?.status == "pending" || books?.status == "sold"}>
                           <div style={{ width: '100%', height: '350px', overflow: 'hidden' }}>
                             <img src={books?.imageURL} alt={books?.title} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                           </div>

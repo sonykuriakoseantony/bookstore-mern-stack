@@ -57,4 +57,17 @@ export const getSingleBookDetailsAPI = async (id, reqHeader) => {
     return await commonAPI("GET", `${serverURL}/books/${id}/view`, {}, reqHeader);
 }
 
+// get all books by admin
+export const getAllAdminBooksAPI = async (reqHeader) => {
+    return await commonAPI("GET", `${serverURL}/books/all`, {}, reqHeader);
+}
 
+// get all users by admin
+export const getAllUsersAPI = async (reqHeader) => {
+    return await commonAPI("GET", `${serverURL}/users/all`, {}, reqHeader);
+}
+
+// edit admin user API
+export const editAdminUserAPI = async (id, reqBody, reqHeader) => {
+    return await commonAPI("PUT", `${serverURL}/admin/${id}/edit`, reqBody, reqHeader);
+}
