@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import { BiUser } from 'react-icons/bi'
 import { FaEye, FaEyeSlash } from 'react-icons/fa'
 import { Link, useNavigate } from 'react-router-dom'
@@ -6,9 +6,12 @@ import { ToastContainer, toast } from 'react-toastify'
 import { googleLoginAPI, loginAPI, registerAPI } from '../services/allAPI'
 import { GoogleLogin } from '@react-oauth/google'
 import { jwtDecode } from 'jwt-decode'
+import { routeGuardContext } from '../contextAPI/AuthContext'
 
 
 function Auth({ registerURL }) {
+
+  const { setAuthorisedUser } = useContext(routeGuardContext);
 
   const navigate = useNavigate();
 
@@ -140,6 +143,9 @@ function Auth({ registerURL }) {
             password: ''
           })
 
+          //Authorised user set in AuthContext
+          setAuthorisedUser(true);
+
           setTimeout(() => {
             if (result.data.user.role == 'admin') {
               navigate('/admin/home');
@@ -189,6 +195,9 @@ function Auth({ registerURL }) {
       toast.success("Login successful!!")
       sessionStorage.setItem("token", result.data.token);
       sessionStorage.setItem("user", JSON.stringify(result.data.user));
+
+      //Authorised user set in AuthContext
+      setAuthorisedUser(true);
 
       setTimeout(() => {
         if (result.data.user.role == 'admin') {

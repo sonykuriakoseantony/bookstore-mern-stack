@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { getAllUserProfileBooksAPI } from '../../services/allAPI';
+import { getAllUserProfileBooksAPI, removeBookAPI } from '../../services/allAPI';
 
 function BookStatus() {
   const [allBooks, setAllBooks] = useState([]);
@@ -9,19 +9,37 @@ function BookStatus() {
   }, [])
 
   const getAllUserProfileBooks = async () => {
-
     const token = sessionStorage.getItem("token");
-    const reqHeader = {
-      "Authorization": `Bearer ${token}`
-    }
+    if (token) {
+      const reqHeader = {
+        "Authorization": `Bearer ${token}`
+      }
 
-    const result = await getAllUserProfileBooksAPI(reqHeader);
+      const result = await getAllUserProfileBooksAPI(reqHeader);
 
-    if (result.status == 200) {
-      setAllBooks(result.data)
+      if (result.status == 200) {
+        setAllBooks(result.data)
+      }
+      else {
+        console.log(result);
+      }
     }
-    else {
-      console.log(result);
+  }
+
+  const removeBook = async (bookId) => {
+    const token = sessionStorage.getItem("token");
+    if (token) {
+      const reqHeader = {
+        "Authorization": `Bearer ${token}`
+      }
+      
+      const result = await removeBookAPI(bookId, reqHeader);
+      if (result.status == 200) {
+        getAllUserProfileBooks();
+      }
+      else {
+        console.log(result);
+      }
     }
   }
 
@@ -47,14 +65,16 @@ function BookStatus() {
                           : book?.status == "approved" ?
                             <img className='shrink-0' width={'80px'} src="/status-approved.png" alt="Approved" />
                             :
-                              <img className='shrink-0' width={'80px'} src="/status-sold.png" alt="Sold" />
+                            <img className='shrink-0' width={'80px'} src="/status-sold.png" alt="Sold" />
                       }
                     </div>
 
                   </div>
                   <div className='px-4 mt-4 md:mt-0'>
                     <img className='w-full' src={book?.imageURL} alt="book" />
-                    <div className='mt-4 flex justify-end'><button className='cursor-pointer bg-red-600 px-4 py-2 border rounded text-white transition duration-300 ease-in-out hover:bg-white hover:text-red-600'>Delete</button></div>
+                    <div className='mt-4 flex justify-end'>
+                      <button onClick={()=>removeBook(book?._id)} className='cursor-pointer bg-red-600 px-4 py-2 border rounded text-white transition duration-300 ease-in-out hover:bg-white hover:text-red-600'>Delete</button>
+                      </div>
                   </div>
 
                 </div>

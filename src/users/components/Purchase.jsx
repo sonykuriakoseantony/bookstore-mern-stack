@@ -36,7 +36,7 @@ function Purchase() {
                   <div className='px-4'>
                     <h1 className='text-2xl'>{book?.title}</h1>
                     <h2 className='text-xl'>{book?.author}</h2>
-                    <h3 className='text-lg text-blue-700'>Price ${book?.dicountPrice} </h3>
+                    <h3 className='text-lg text-blue-700'>Price ${book?.discountPrice} </h3>
                     <p className='text-justify'>{book?.abstract}</p>
                     <div className='flex mt-3'>
                       <img width={'120px'} src="/purchase.png" alt="Pending" />

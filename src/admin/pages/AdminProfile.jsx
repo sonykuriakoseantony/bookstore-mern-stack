@@ -12,7 +12,7 @@ function AdminProfile() {
 
   const [userToken, setUserToken] = useState("");
   const [userDetails, setUserDetails] = useState({
-    username: "", password: "", cpassword: "", picture: "", role: "", bio: ""
+    username: "", password: "", cpassword: "", picture: "", role: "", bio: "", id: ""
   });
   const [preview, setPreview] = useState("");
   const [existingUserImage, setExistingUserImage] = useState("");
@@ -34,7 +34,7 @@ function AdminProfile() {
   const handleResetForm = () => {
     const user = JSON.parse(sessionStorage.getItem("user"));
     setUserDetails({
-      username: user.username, role: user.role, bio: user.bio, password: "", cpassword: ""
+      username: user.username, role: user.role, bio: user.bio, password: "", cpassword: "", id: user._id
     })
     setPreview("");
   }
@@ -65,7 +65,7 @@ function AdminProfile() {
 
   const handleUpdateAdminUser = async () => {
     const { username, password, cpassword, bio, picture, role, id } = userDetails;
-    console.log(username, password, cpassword, bio, picture, role, id);
+    // console.log(username, password, cpassword, bio, picture, role, id);
 
     if (!username || !password || !cpassword) {
       toast.info("Please fill all the fields");

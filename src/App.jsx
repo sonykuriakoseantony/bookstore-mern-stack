@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useContext, useState } from 'react'
 import './App.css'
 import { Route, Routes } from 'react-router-dom'
 import Home from './users/pages/Home'
@@ -11,11 +11,15 @@ import AdminHome from './admin/pages/AdminHome'
 import AdminCollection from './admin/pages/AdminCollection'
 import AdminProfile from './admin/pages/AdminProfile'
 import Auth from './pages/Auth'
-import PageNotFound  from './pages/PageNotFound'
+import PageNotFound from './pages/PageNotFound'
 import PreLoader from './components/PreLoader'
+import PaymentSuccess from './users/pages/PaymentSuccess'
+import PaymentError from './users/pages/PaymentError'
+import { routeGuardContext } from './contextAPI/AuthContext'
 
 function App() {
   const [loader, setLoader] = useState(true)
+  const { role } = useContext(routeGuardContext);
 
   setTimeout(() => {
     setLoader(false)
@@ -23,20 +27,33 @@ function App() {
 
   return (
     <>
-    
+
       <Routes>
-        <Route path='/' element={loader?<PreLoader /> : <Home />} />
+        <Route path='/' element={loader ? <PreLoader /> : <Home />} />
         <Route path='/login' element={<Auth />} />
         <Route path='/register' element={<Auth registerURL={true} />} />
         <Route path='/books' element={<BooksArchive />} />
         <Route path='/contact' element={<Contact />} />
 
-        <Route path='/user/profile' element={<Profile />} />
-        <Route path='/books/:id/view' element={<ViewBook />} />
+        {
+          role == "user" &&
+          <>
+            <Route path='/user/profile' element={<Profile />} />
+            <Route path='/books/:id/view' element={<ViewBook />} />
+            <Route path='/payment-success' element={<PaymentSuccess />} />
+            <Route path='/payment-fail' element={<PaymentError />} />
+          </>
+        }
 
-        <Route path='/admin/home' element={<AdminHome />} />
-        <Route path='/admin/collection' element={<AdminCollection />} />
-        <Route path='/admin/profile' element={<AdminProfile />} />
+
+        {
+          role == "admin" &&
+          <>
+            <Route path='/admin/home' element={loader ? <PreLoader /> : <AdminHome />} />
+            <Route path='/admin/collection' element={<AdminCollection />} />
+            <Route path='/admin/profile' element={<AdminProfile />} />
+          </>
+        }
 
         <Route path='/*' element={<PageNotFound />} />
       </Routes>

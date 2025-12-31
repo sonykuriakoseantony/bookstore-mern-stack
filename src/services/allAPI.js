@@ -72,7 +72,17 @@ export const editAdminUserAPI = async (id, reqBody, reqHeader) => {
     return await commonAPI("PUT", `${serverURL}/admin/${id}/edit`, reqBody, reqHeader);
 }
 
-// edit admin user update book status API
+// books/:id/update : PUT req by admin user to update book status API - Approve book workflow
 export const updateBookStatusAPI = async (id, reqHeader) => {
     return await commonAPI("PUT", `${serverURL}/books/${id}/update`, {}, reqHeader);
+}
+
+//books/:id : DELETE req by BookStatus Component when delete button clicked
+export const removeBookAPI = async (id, reqHeader) => {
+    return await commonAPI("DELETE", `${serverURL}/books/${id}`, {}, reqHeader);
+}
+
+///books/:id/buy : PUT req by ViewBook Component when Buy button clicked
+export const bookPaymentAPI = async (id, reqHeader) => {
+    return await commonAPI("PUT", `${serverURL}/books/${id}/buy`, {}, reqHeader);
 }

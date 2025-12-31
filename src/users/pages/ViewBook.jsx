@@ -2,15 +2,17 @@ import React, { useEffect, useState } from 'react'
 import Header from '../components/Header'
 import Footer from '../../components/Footer'
 import { FaBackward, FaCamera, FaEye } from 'react-icons/fa'
-import { Link, useParams } from 'react-router-dom'
+import { Link, useNavigate, useParams } from 'react-router-dom'
 import { CgClose } from 'react-icons/cg'
-import { getSingleBookDetailsAPI } from '../../services/allAPI'
+import { bookPaymentAPI, getSingleBookDetailsAPI } from '../../services/allAPI'
 import serverURL from '../../services/serverURL'
+import { loadStripe } from '@stripe/stripe-js';
 
 function ViewBook() {
   const [modalStatus, setModalStatus] = useState(false);
   const [bookDetails, setBookDetails] = useState({})
   const { id } = useParams();
+  const navigate = useNavigate();
 
   console.log(bookDetails);
 
@@ -20,18 +22,42 @@ function ViewBook() {
 
   const getBookDetails = async () => {
     const token = sessionStorage.getItem("token");
-    const reqHeader = {
-      "Authorization": `Bearer ${token}`
+    if (token) {
+      const reqHeader = {
+        "Authorization": `Bearer ${token}`
+      }
+      // call api to get book details
+      const result = await getSingleBookDetailsAPI(id, reqHeader);
+
+      if (result.status == 200) {
+        setBookDetails(result.data)
+      }
+      else {
+        console.log(result);
+      }
     }
 
-    // call api to get book details
-    const result = await getSingleBookDetailsAPI(id, reqHeader);
+  }
 
-    if (result.status == 200) {
-      setBookDetails(result.data)
-    }
-    else {
-      console.log(result);
+  const makePayment = async () => {
+    const stripe = await loadStripe('pk_test_51SkK6OQHzg2rrK8KHhxhaLahty2Jv2QV3fUeG52rP4g7OSEanwYKiv2K15XM4kFWfYSB9qIbLNxYUQXjZkleC0u000MR6Cq1ho');
+    console.log(stripe);
+
+    const token = sessionStorage.getItem("token");
+    if (token) {
+      const reqHeader = {
+        "Authorization": `Bearer ${token}`
+      }
+      // call api to get book details
+      const result = await bookPaymentAPI(id, reqHeader);
+
+      if (result.status == 200) {
+        const checkout_URL = result.data.checkoutURL;
+        window.location.href = checkout_URL;
+      }
+      else {
+        console.log(result);
+      }
     }
   }
 
@@ -68,7 +94,7 @@ function ViewBook() {
               <p>{bookDetails?.abstract}</p>
               <div className='flex justify-end gap-x-4 mt-6'>
                 <Link to={'/books'} className='transition duration-300 ease-in-out cursor-pointer py-2 px-3 rounded bg-blue-900 text-white border hover:bg-white hover:text-blue-800 hover:border-blue-800 flex items-center gap-x-2'><FaBackward />Back</Link>
-                <button className='transition duration-300 ease-in-out cursor-pointer py-2 px-4 rounded bg-green-700 text-white border hover:bg-white hover:text-green-700 hover:border-green-700 flex items-center gap-x-2'>Buy ${bookDetails?.discountPrice}</button>
+                <button onClick={makePayment} className='transition duration-300 ease-in-out cursor-pointer py-2 px-4 rounded bg-green-700 text-white border hover:bg-white hover:text-green-700 hover:border-green-700 flex items-center gap-x-2'>Buy ${bookDetails?.discountPrice}</button>
               </div>
             </div>
           </div>
