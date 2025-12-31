@@ -6,19 +6,16 @@ import serverURL from '../../services/serverURL';
 
 function AdminSideBar() {
 
-  const [userToken, setUserToken] = useState("");
   const [userName, setUserName] = useState("");
-    const [userDp, setUserDp] = useState("");
+  const [userDp, setUserDp] = useState("");
 
   useEffect(() => {
       if (sessionStorage.getItem("token") && sessionStorage.getItem("user")) {
-        const currentUserToken = sessionStorage.getItem("token");
-        setUserToken(currentUserToken);
         const userData = JSON.parse(sessionStorage.getItem("user"));
         setUserDp(userData?.picture);
         setUserName(userData?.username);
       }
-    }, [userToken])
+    }, [])
   console.log(userDp, userName);
   
   return (

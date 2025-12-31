@@ -71,3 +71,8 @@ export const getAllUsersAPI = async (reqHeader) => {
 export const editAdminUserAPI = async (id, reqBody, reqHeader) => {
     return await commonAPI("PUT", `${serverURL}/admin/${id}/edit`, reqBody, reqHeader);
 }
+
+// edit admin user update book status API
+export const updateBookStatusAPI = async (id, reqHeader) => {
+    return await commonAPI("PUT", `${serverURL}/books/${id}/update`, {}, reqHeader);
+}

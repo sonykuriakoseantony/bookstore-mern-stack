@@ -111,8 +111,6 @@ function ViewBook() {
           </div>
         }
       </div>
-
-
       <Footer />
     </>
   )

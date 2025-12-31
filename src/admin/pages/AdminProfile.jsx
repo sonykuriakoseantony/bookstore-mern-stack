@@ -58,11 +58,7 @@ function AdminProfile() {
     setPreview(url);
   }
 
-  console.log(existingUserImage);
-
   const checkPasswordMatch = (data) => {
-    console.log(data);
-
     setUserDetails({ ...userDetails, cpassword: data })
     userDetails.password == data ? setPswdMatch(true) : setPswdMatch(false)
   }

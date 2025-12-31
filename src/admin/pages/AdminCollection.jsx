@@ -2,8 +2,10 @@ import React, { useEffect, useState } from 'react'
 import AdminHeader from '../components/AdminHeader'
 import Footer from '../../components/Footer'
 import AdminSideBar from '../components/AdminSideBar'
-import { getAllAdminBooksAPI, getAllUsersAPI } from '../../services/allAPI';
+import { getAllAdminBooksAPI, getAllUsersAPI, updateBookStatusAPI } from '../../services/allAPI';
 import serverURL from '../../services/serverURL';
+import { BiCheckCircle } from 'react-icons/bi';
+import { toast, ToastContainer } from 'react-toastify';
 
 function AdminCollection() {
   const [tabIndex, setTabIndex] = useState(1);
@@ -58,6 +60,26 @@ function AdminCollection() {
     }
   }
 
+  const updateBookStatus = async (bookId) => {
+    const token = sessionStorage.getItem("token");
+    if (token) {
+      const reqHeader = {
+        "Authorization": `Bearer ${token}`
+      }
+
+      // call api to get book details
+      const result = await updateBookStatusAPI(bookId, reqHeader);
+
+      if (result.status == 200) {
+        toast.success("Book Status Updated Successfully");
+        getAllBooks(token);
+      }
+      else {
+        console.log(result);
+      }
+    }
+  }
+
   return (
     <>
       <AdminHeader />
@@ -77,19 +99,26 @@ function AdminCollection() {
           {/* Contents */}
           {
             tabIndex == 1 &&
-            <div className='md:grid grid-cols-3 w-full my-5'>
+            <div className='md:grid grid-cols-4 w-full my-5'>
               {/* Duplicate Book cards */}
               {
                 allBooks?.length > 0 ?
                   allBooks?.map((book) => (
                     <div key={book?._id} className='shadow rounded-lg p-3 mx-4 my-3 md:mt-0 text-center'>
-                      <img src={book?.imageURL} alt="Alchemist" style={{ width: '100%' }} />
+                      <img src={book?.imageURL} alt="Alchemist" style={{ width: 'auto', height: '300px', margin: 'auto' }} />
                       <div className='flex flex-col justify-center items-center m-4'>
                         <h3 className='text-blue-700 font-bold text-xl'>{book?.author}</h3>
                         <p>{book?.title}</p>
                         <p>${book?.price}</p>
                       </div>
-                      <button className='text-center transition duration-300 ease-in-out cursor-pointer py-2 px-3 rounded bg-green-800 text-white border hover:bg-white hover:text-green-800 hover:border-green-800'>Approve</button>
+                      {
+                        book?.status != "approved" ?
+                          <button onClick={() => updateBookStatus(book?._id)} className='text-center transition duration-300 ease-in-out cursor-pointer py-2 px-3 rounded bg-green-800 text-white border hover:bg-white hover:text-green-800 hover:border-green-800'>Approve</button>
+
+                          :
+
+                          <BiCheckCircle className='text-green-800 mx-auto' size={30} />
+                      }
                     </div>
                   ))
 
@@ -97,8 +126,6 @@ function AdminCollection() {
 
                   <p className='font-bold text-lg text-red-700'>No Books to display</p>
               }
-
-
 
             </div>
           }
@@ -115,20 +142,19 @@ function AdminCollection() {
                       <div className='flex items-center mt-3'>
                         <div className="flex justify-center">
                           {
-                            user?.picture?
-                            <img alt="Profile pic" src={user?.picture.startsWith("https://lh3.googleusercontent.com/") ?user?.picture : `${serverURL}/uploads/${user?.picture}`} width={'60px'} height={'60px'} className='rounded-full shrink-0' />
-                              
-                            :
+                            user?.picture ?
+                              <img alt="Profile pic" src={user?.picture.startsWith("https://lh3.googleusercontent.com/") ? user?.picture : `${serverURL}/uploads/${user?.picture}`} width={'60px'} height={'60px'} className='rounded-full shrink-0' />
 
-                            <img alt="Profile pic" src="https://cdn-icons-png.flaticon.com/512/12225/12225773.png" width={'60px'} height={'60px'} className='rounded-full shrink-0' />
-                              
+                              :
+
+                              <img alt="Profile pic" src="https://cdn-icons-png.flaticon.com/512/12225/12225773.png" width={'60px'} height={'60px'} className='rounded-full shrink-0' />
+
                           }
-                          
-                          
+
                         </div>
                         <div className='flex flex-col ml-3 w-full'>
                           <h4 className='text-blue font-bold text-lg'>{user?.username}</h4>
-                          <p className='text-sm' style={{wordBreak : "break-all"}}>{user?.email}</p>
+                          <p className='text-sm' style={{ wordBreak: "break-all" }}>{user?.email}</p>
                         </div>
                       </div>
                     </div>
@@ -143,10 +169,11 @@ function AdminCollection() {
           }
 
         </div>
+        <ToastContainer autoClose={3000} position="top-center" theme='colored' />
       </div>
       <Footer />
     </>
   )
 }
 
-export default AdminCollection
+export default AdminCollection;
